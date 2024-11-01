@@ -2,6 +2,8 @@
 import discord
 from discord.ext import commands
 import json
+from gerador import gerarImagemMain
+from time import sleep
 
 #* ABRINDO O JSON FILE
 with open('configsMain.json', 'r', encoding='utf-8') as jsonFile:
@@ -22,8 +24,10 @@ TOKEN_BOT = dadosConfigs['TOKEN']
 #* LÓGICA DO CÓDIGO
 @bot.command()
 async def gerar(ctx:commands.Context):
+    gerarImagemMain()
+    sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
-    await ctx.send(file=discord.File('20-47-30 31-10-2024.jpg'))
+    await ctx.send(file=discord.File('images\gerada.jpg'))
     
 @bot.event
 async def on_ready():

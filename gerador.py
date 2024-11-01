@@ -3,7 +3,6 @@ from PIL import Image
 import json
 import random
 from os import listdir
-from datetime import datetime
 
 # lendo a imagem
 class Gerador:
@@ -28,8 +27,12 @@ class Gerador:
   def imagemPronta(self):
     for n in range(self.listConfigs[0]):
       position = (self.listConfigs[(1 * (n + 1))], self.listConfigs[(2 * (n + 1))])
-      self.template.paste(self.listImagens[n], position)
-    self.template.save(f"{datetime.now().strftime("%H-%M-%S %d-%m-%Y")}.jpg")
+      medidas = (self.listConfigs[(3 * (n + 1))], self.listConfigs[(4 * (n + 1))])
+
+      overlay = self.listImagens[n].resize((medidas))
+      
+      self.template.paste(overlay, position)
+    self.template.save(rf'images\gerada.jpg')
 
 ##############################################################
 # a logica abaixo serve apenas para testar o codigo aqui     #
@@ -41,7 +44,8 @@ class Gerador:
 # IMPORTANTE IMPLEMENTAR UMA FORMA DE LOG, ONDE FICA SALVA QUAL TEMPLATE CONFIG FOI USADA
 # E QUAIS OVERLAYS FOI USADA
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
+def gerarImagemMain():
   # escolhendo a pasta do template, o max do randint recebe o lenght da pasta templates
   templateRandom:str = (f'template{random.randint(1, len(listdir('templates')))}')
 
@@ -72,3 +76,4 @@ if __name__ == '__main__':
   #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
   instancia = Gerador(rf'templates\{templateRandom}\template.png', listOverlays, dadosJson)
   instancia.imagemPronta()
+gerarImagemMain()
