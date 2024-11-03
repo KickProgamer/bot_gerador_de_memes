@@ -28,7 +28,6 @@ class Gerador:
     for n in range(self.listConfigs[0]):
       position = (self.listConfigs[(1 * (n + 1))], self.listConfigs[(2 * (n + 1))])
       medidas = (self.listConfigs[(3 * (n + 1))], self.listConfigs[(4 * (n + 1))])
-
       overlay = self.listImagens[n].resize((medidas))
       
       self.template.paste(overlay, position)
@@ -76,4 +75,36 @@ def gerarImagemMain():
   #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
   instancia = Gerador(rf'templates\{templateRandom}\template.png', listOverlays, dadosJson)
   instancia.imagemPronta()
-gerarImagemMain()
+
+def gerarImagemAvatar():
+  # escolhendo a pasta do template, o max do randint recebe o lenght da pasta templates
+  templateRandom:str = (f'template{random.randint(1, len(listdir('templates')))}')
+
+  # tentando puxar o json do template, "if not true" a pasta vai ser salva para analise
+  try:
+    with open(rf'templates\{templateRandom}\templateConfigs.json',
+              'r', encoding='utf-8') as jsonFile:
+      dadosJson = json.load(jsonFile)
+
+  except Exception as traceE:
+    print(f'NÃO FOI POSSIVEL ENCONTRAR O ARQUIVO ".json" NA PASTA {templateRandom}')
+
+    #! CONSERTAR ERRO ABAIXO, NÃO ESTÁ SALVANDO O .JSON DE PASTA QUEBRADAS
+    #with open('logs.json', 'r') as bFolder:
+      #dictBFolder = json.load(bFolder)
+      #dictBFolder.append(templateRandom)
+      #dictBFolder[templateRandom[1]] = traceE
+
+    #with open('bFolders.json', 'w') as bFolder:
+      #json.dump(dictBFolder, bFolder, indent=2)
+
+  # ler o configsTemplate para saber quantas imagens tem que puxar
+  listOverlays:list = []
+  for n in range(int(dadosJson['TOTAL_IMAGENS'])):
+    #listOverlays.append(random.randint(1, len(listdir('overlays'))))
+    listOverlays.append('')
+  
+  # instancia a classe e gera a imagem
+  #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
+  instancia = Gerador(rf'templates\{templateRandom}\template.png', listOverlays, dadosJson)
+  instancia.imagemPronta()

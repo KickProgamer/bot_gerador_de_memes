@@ -28,11 +28,29 @@ async def gerar(ctx:commands.Context):
     sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
     await ctx.send(file=discord.File('images\gerada.jpg'))
+
+#aposetando por enquanto essa funcionalidade
+@bot.command()
+async def avatar(ctx:commands.Context):
+    id:int = 424631344275128322
+    user = bot.get_user(id)
+    print(user)
     
+    if user is None:
+        await ctx.send(f'User not found : id{id}')
+
+    else:
+        avatarURL = user.avatar_url
+        await ctx.send(avatarURL)
+
 @bot.event
 async def on_ready():
     print("INICIANDO FUNCIONAMENTO")
     print(f'Logado como {bot.user}!')
+
+@bot.event
+async def on_member_join(member):
+    await member.send('Bem vindo ao servidor teste do Link! {member.mention}')
 
 #* TOKEN DO BOT
 bot.run(TOKEN_BOT)
