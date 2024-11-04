@@ -12,10 +12,15 @@ class Gerador:
 
     # buscando os overlays
     self.listImagens = []
-    for n in imagens:
-      #! APARENTEMENTE O PILLOW NÃO ENCONTRA A IMAGEM SEM DIZER QUAL O FORMATO
-      imagensTest = Image.open(rf'overlays\{n}.jpeg')
-      self.listImagens.append(imagensTest)
+  
+    if type(imagens) == list: #aqui considera que tem uma lista de imagens
+      for n in imagens:
+        #! APARENTEMENTE O PILLOW NÃO ENCONTRA A IMAGEM SEM DIZER QUAL O FORMATO
+        imagensTest = Image.open(rf'overlays\{n}.jpeg')
+        self.listImagens.append(imagensTest)
+
+    else: #aqui considera que a imagem está em pillow open
+      self.listImagens.append(imagens)
 
     self.listConfigs:list = [] #lista de configurações
     configsTemplate = jsonFile #arquivo já lido com with open
@@ -76,7 +81,8 @@ def gerarImagemMain():
   instancia = Gerador(rf'templates\{templateRandom}\template.png', listOverlays, dadosJson)
   instancia.imagemPronta()
 
-def gerarImagemAvatar():
+def gerarImagemAvatar(imagemAvatar):
+
   # escolhendo a pasta do template, o max do randint recebe o lenght da pasta templates
   templateRandom:str = (f'template{random.randint(1, len(listdir('templates')))}')
 
@@ -87,7 +93,7 @@ def gerarImagemAvatar():
       dadosJson = json.load(jsonFile)
 
   except Exception as traceE:
-    print(f'NÃO FOI POSSIVEL ENCONTRAR O ARQUIVO ".json" NA PASTA {templateRandom}')
+    print(f'NÃO FOI POSSIVEL ENCONTRAR O ARQUIVO ".json" NA PASTA {templateRandom} \n' + f'ou mais precisamente {traceE}')
 
     #! CONSERTAR ERRO ABAIXO, NÃO ESTÁ SALVANDO O .JSON DE PASTA QUEBRADAS
     #with open('logs.json', 'r') as bFolder:
@@ -99,12 +105,15 @@ def gerarImagemAvatar():
       #json.dump(dictBFolder, bFolder, indent=2)
 
   # ler o configsTemplate para saber quantas imagens tem que puxar
-  listOverlays:list = []
-  for n in range(int(dadosJson['TOTAL_IMAGENS'])):
+  # essa lógica abaixo vai ficar desativada por enquanto, pois nenhum template está usando mais
+  # do que uma imagem
+
+  #listOverlays:list = []
+  #for n in range(int(dadosJson['TOTAL_IMAGENS'])):
     #listOverlays.append(random.randint(1, len(listdir('overlays'))))
-    listOverlays.append('')
-  
+    #listOverlays.append('')
+
   # instancia a classe e gera a imagem
   #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
-  instancia = Gerador(rf'templates\{templateRandom}\template.png', listOverlays, dadosJson)
+  instancia = Gerador(rf'templates\{templateRandom}\template.png', imagemAvatar, dadosJson)
   instancia.imagemPronta()
