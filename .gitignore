@@ -4,6 +4,7 @@ testeAppend.py
 __pycache__/
 *.py[cod]
 *$py.class
+.vscode
 
 # C extensions
 *.so
@@ -27,6 +28,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+__pycache__/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -155,3 +157,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+__pycache__/gerador.cpython-312.pyc
