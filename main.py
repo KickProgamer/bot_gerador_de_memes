@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands
 import json
-from gerador import gerarImagemMain
+from gerador import gerarImagemMain, gerarImagemAvatar
 from time import sleep
 
 #* ABRINDO O JSON FILE
@@ -17,31 +17,36 @@ permissoes.members = True
 #* HEADER CONFIGS
 bot = commands.Bot(command_prefix=".",
                    intents=permissoes)
-    
+
 #* TOKEN
 TOKEN_BOT = dadosConfigs['TOKEN']
 
 #* LÓGICA DO CÓDIGO
 @bot.command()
 async def gerar(ctx:commands.Context):
-    gerarImagemMain()
+    await gerarImagemMain()
     sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
     await ctx.send(file=discord.File('images\gerada.jpg'))
 
 #aposetando por enquanto essa funcionalidade
 @bot.command()
-async def avatar(ctx:commands.Context):
-    id:int = 424631344275128322
-    user = bot.get_user(id)
-    print(user)
-    
-    if user is None:
-        await ctx.send(f'User not found : id{id}')
+async def avatar(ctx:commands.Context, avatarID):
+    from io import BytesIO
+    from requests import get
 
+    from PIL import Image
+    user = await bot.fetch_user(avatarID)
+    if user is None:
+        await ctx.send('NÃO FOI POSSIVEL ENCONTRAR O USUARIO')
     else:
-        avatarURL = user.avatar_url
-        await ctx.send(avatarURL)
+        avatarURL = user.avatar
+        response = get(avatarURL)
+        imagemPillow = Image.open(BytesIO(response.content))
+        gerarImagemAvatar(imagemPillow)
+        sleep(1)
+        await ctx.send('IMAGEM GERADA AQUI')
+        await ctx.send(file=discord.File('images\gerada.jpg'))
 
 @bot.event
 async def on_ready():
