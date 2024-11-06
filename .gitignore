@@ -4,10 +4,7 @@ testeAppend.py
 __pycache__/
 *.py[cod]
 *$py.class
-.vscode
-
-# C extensions
-*.so
+.prettierrc
 
 # Distribution / packaging
 .Python
@@ -29,6 +26,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 __pycache__/*
+.vscode/*
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
