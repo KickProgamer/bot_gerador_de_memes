@@ -27,7 +27,7 @@ async def gerar(ctx:commands.Context):
     gerarImagemMain()
     sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
-    await ctx.send(file=discord.File('images\gerada.jpg'))
+    await ctx.send(file=discord.File('images/gerada.jpg'))
 
 #aposetando por enquanto essa funcionalidade
 @bot.command()
@@ -46,7 +46,7 @@ async def avatar(ctx:commands.Context, avatarID):
         gerarImagemAvatar(imagemPillow)
         sleep(1)
         await ctx.send('IMAGEM GERADA AQUI')
-        await ctx.send(file=discord.File('images\gerada.jpg'))
+        await ctx.send(file=discord.File('.temp/gerada.jpg'))
 
 @bot.event
 async def on_ready():

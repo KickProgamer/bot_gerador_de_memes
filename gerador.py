@@ -16,7 +16,7 @@ class Gerador:
     if type(imagens) == list: #aqui considera que tem uma lista de imagens
       for n in imagens:
         #! APARENTEMENTE O PILLOW NÃO ENCONTRA A IMAGEM SEM DIZER QUAL O FORMATO
-        imagensTest = Image.open(rf'overlays\{n}.jpeg')
+        imagensTest = Image.open(rf'overlays/{n}.jpeg')
         self.listImagens.append(imagensTest)
 
     else: #aqui considera que a imagem está em pillow open
@@ -36,7 +36,7 @@ class Gerador:
       overlay = self.listImagens[n].resize((medidas))
       
       self.template.paste(overlay, position)
-    self.template.save(rf'images\gerada.jpg')
+    self.template.save(rf'.temp/gerada.jpg')
 
 ##############################################################
 # a logica abaixo serve apenas para testar o codigo aqui     #
@@ -55,7 +55,7 @@ def gerarImagemMain():
 
   # tentando puxar o json do template, "if not true" a pasta vai ser salva para analise
   try:
-    with open(rf'templates\{templateRandom}\templateConfigs.json',
+    with open(rf'templates/{templateRandom}/templateConfigs.json',
               'r', encoding='utf-8') as jsonFile:
       dadosJson = json.load(jsonFile)
 
@@ -78,7 +78,7 @@ def gerarImagemMain():
   
   # instancia a classe e gera a imagem
   #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
-  instancia = Gerador(rf'templates\{templateRandom}\template.png', listOverlays, dadosJson)
+  instancia = Gerador(rf'templates/{templateRandom}/template.png', listOverlays, dadosJson)
   instancia.imagemPronta()
 
 def gerarImagemAvatar(imagemAvatar):
@@ -88,7 +88,7 @@ def gerarImagemAvatar(imagemAvatar):
 
   # tentando puxar o json do template, "if not true" a pasta vai ser salva para analise
   try:
-    with open(rf'templates\{templateRandom}\templateConfigs.json',
+    with open(rf'./templates/{templateRandom}/templateConfigs.json',
               'r', encoding='utf-8') as jsonFile:
       dadosJson = json.load(jsonFile)
 
@@ -115,5 +115,5 @@ def gerarImagemAvatar(imagemAvatar):
 
   # instancia a classe e gera a imagem
   #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
-  instancia = Gerador(rf'templates\{templateRandom}\template.png', imagemAvatar, dadosJson)
+  instancia = Gerador(rf'templates/{templateRandom}/template.png', imagemAvatar, dadosJson)
   instancia.imagemPronta()
