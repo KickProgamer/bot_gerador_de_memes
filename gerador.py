@@ -51,7 +51,7 @@ class Gerador:
 #if __name__ == '__main__':
 def gerarImagemMain():
   # escolhendo a pasta do template, o max do randint recebe o lenght da pasta templates
-  templateRandom:str = (f'template{random.randint(1, len(listdir('templates')))}')
+  templateRandom:str = (f'template{random.randint(1, len(listdir("templates")))}')
 
   # tentando puxar o json do template, "if not true" a pasta vai ser salva para analise
   try:
@@ -84,7 +84,7 @@ def gerarImagemMain():
 def gerarImagemAvatar(imagemAvatar):
 
   # escolhendo a pasta do template, o max do randint recebe o lenght da pasta templates
-  templateRandom:str = (f'template{random.randint(1, len(listdir('templates')))}')
+  templateRandom:str = (f'template{random.randint(1, len(listdir("templates")))}')
 
   # tentando puxar o json do template, "if not true" a pasta vai ser salva para analise
   try:
