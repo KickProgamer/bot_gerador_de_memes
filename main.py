@@ -24,7 +24,7 @@ TOKEN_BOT = dadosConfigs['TOKEN']
 #* LÓGICA DO CÓDIGO
 @bot.command()
 async def gerar(ctx:commands.Context):
-    await gerarImagemMain()
+    gerarImagemMain()
     sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
     await ctx.send(file=discord.File('images\gerada.jpg'))
