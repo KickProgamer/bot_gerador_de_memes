@@ -36,7 +36,7 @@ class Gerador:
       overlay = self.listImagens[n].resize((medidas))
       
       self.template.paste(overlay, position)
-    self.template.save(rf'temporaria/gerada.jpg')
+    self.template.save(rf'temporariaFolder/gerada.jpg')
 
 ##############################################################
 # a logica abaixo serve apenas para testar o codigo aqui     #
