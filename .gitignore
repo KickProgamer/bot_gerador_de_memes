@@ -156,3 +156,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 __pycache__/gerador.cpython-312.pyc
+__pycache__/gerador.cpython-312.pyc
+images/gerada.jpg
