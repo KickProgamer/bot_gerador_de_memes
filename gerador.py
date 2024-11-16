@@ -25,6 +25,13 @@ class Gerador:
     self.listConfigs:list = [] #lista de configurações
     configsTemplate = jsonFile #arquivo já lido com with open
 
+
+    #*###########################################################################
+    #* MUITO IMPORTANTE NOTAR QUE O JSON FILE ESTÁ SENDO JOGADO PARA UM ARRAY   #
+    #* PORÉM FICARIA MELHOR PUXAR O VALOR PELA CHAVE DO JSON POIS ASSIM FICARIA #
+    #* MAIS FACIL DE ESCALAR DIFERENTES QUANTIDADES DE IMAGENS ...              #
+    #*###########################################################################
+
     # scrapping no dict do json para uma list 'listConfigs'
     for itemValue in configsTemplate:
       self.listConfigs.append(configsTemplate[itemValue])
@@ -77,7 +84,7 @@ def gerarImagemMain():
     listOverlays.append(random.randint(1, len(listdir('overlays'))))
   
   # instancia a classe e gera a imagem
-  #! APARENTEMENTE O PILLOW NÃO ENCONTRAR A IMAGEM SEM ESPECIFICAR O FORMATO
+  #! APARENTEMENTE O PILLOW NÃO ENCONTRA A IMAGEM SEM ESPECIFICAR O FORMATO
   instancia = Gerador(rf'templates/{templateRandom}/template.png', listOverlays, dadosJson)
   instancia.imagemPronta()
 
