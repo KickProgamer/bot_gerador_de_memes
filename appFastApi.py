@@ -24,7 +24,8 @@ async def minha_funcao(token:str):
 
 # Função de gerar tokens
 def gerar_token_temp():
-  token = str(uuid.uuid4())
-  temp_tokens[token] = datetime.now() + timedelta(minutes=5)
-  return token
+  tokenG = str(uuid.uuid4())
+  temp_tokens[tokenG] = datetime.now() + timedelta(minutes=5)
+  minha_funcao(tokenG)
+  return tokenG
 #Retornando as informações da pagina e tratando-oas

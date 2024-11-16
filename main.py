@@ -20,6 +20,7 @@ bot = commands.Bot(command_prefix=".",
 
 #* TOKEN
 TOKEN_BOT = dadosConfigs['TOKEN']
+SUB_DOMAIN = 'shitbot.squareweb.app/'
 
 #* LÓGICA DO CÓDIGO
 @bot.command()
@@ -51,8 +52,8 @@ async def avatar(ctx:commands.Context, avatarID):
 @bot.command()
 async def importar(ctx:commands.Context):
     from appFastApi import gerar_token_temp
-    token = gerar_token_temp
-    url_temp = f"http://botgeradordeshitpost.squareweb.app/{token}"
+    token = gerar_token_temp()
+    url_temp = f"{SUB_DOMAIN}{token}"
     await ctx.send(f'ACESSE AQUI PARA IMPORTAR SEUS TEMPLATES: {url_temp}')
 
 
