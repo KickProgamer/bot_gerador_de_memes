@@ -27,7 +27,7 @@ async def gerar(ctx:commands.Context):
     gerarImagemMain()
     sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
-    await ctx.send(file=discord.File('images/gerada.jpg'))
+    await ctx.send(file=discord.File('temporariaFolder/gerada.jpg'))
 
 #aposetando por enquanto essa funcionalidade
 @bot.command()
@@ -47,6 +47,14 @@ async def avatar(ctx:commands.Context, avatarID):
         sleep(1)
         await ctx.send('IMAGEM GERADA AQUI')
         await ctx.send(file=discord.File('temporariaFolder/gerada.jpg'))
+
+@bot.command()
+async def importar(ctx:commands.Context):
+    from appFastApi import gerar_token_temp
+    token = gerar_token_temp
+    url_temp = f"http://botgeradordeshitpost.squareweb.app/{token}"
+    await ctx.send(f'ACESSE AQUI PARA IMPORTAR SEUS TEMPLATES: {url_temp}')
+
 
 @bot.event
 async def on_ready():
