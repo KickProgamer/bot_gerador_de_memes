@@ -4,6 +4,7 @@ from discord.ext import commands
 import json
 from gerador import gerarImagemMain, gerarImagemAvatar
 from time import sleep
+import requests
 
 #* ABRINDO O JSON FILE
 with open('configsMain.json', 'r', encoding='utf-8') as jsonFile:
@@ -34,7 +35,6 @@ async def gerar(ctx:commands.Context):
 @bot.command()
 async def avatar(ctx:commands.Context, avatarID):
     from io import BytesIO
-    from requests import get
 
     from PIL import Image
     user = await bot.fetch_user(avatarID)
@@ -42,7 +42,7 @@ async def avatar(ctx:commands.Context, avatarID):
         await ctx.send('NÃO FOI POSSIVEL ENCONTRAR O USUARIO')
     else:
         avatarURL = user.avatar
-        response = get(avatarURL)
+        response = requests.get(avatarURL)
         imagemPillow = Image.open(BytesIO(response.content))
         gerarImagemAvatar(imagemPillow)
         sleep(1)
@@ -51,10 +51,9 @@ async def avatar(ctx:commands.Context, avatarID):
 
 @bot.command()
 async def importar(ctx:commands.Context):
-    import requests
-
     # URL da API na Square Cloud
     API_URL = 'http://shitbot.squarecloud.app/'
+    API_URL_LOCAL = 'http://127.0.0.1/'
 
     # Obter token temporário da API
     response = requests.get(API_URL + 'gerar-token')
@@ -69,6 +68,23 @@ async def importar(ctx:commands.Context):
 async def on_ready():
     print("INICIANDO FUNCIONAMENTO")
     print(f'Logado como {bot.user}!')
+
+    # teste se o uvicorn está rodando
+    try:
+        API_URL = 'http://shitbot.squarecloud.app/'
+        API_URL_LOCAL = 'http://127.0.0.1/'
+        # verifcando o status da API
+        responseAPI = requests.get(API_URL + "status")
+        if responseAPI.status_code == 200:
+            data = responseAPI.json()
+            if data.get("message") == "API está funcionando corretamente":
+                print("A API está funcionando")
+            else:
+                print(f"A API respondeu porém não como esperado: {data}")
+        else:
+            print(f"A API respondeu com erro. Código de status: {responseAPI.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f" Erro ao conectar à API: {e}")
 
 @bot.event
 async def on_member_join(member):
