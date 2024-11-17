@@ -61,6 +61,7 @@ async def importar(ctx:commands.Context):
     data = response.json()
     token = data['token']
     url_temp = f"{API_URL}minha-rota/{token}"
+    print('UMA NOVA REQUISIÇÃO DE API FOI REGISTRADA')
     await ctx.send(f"A URL temporária é: {url_temp}")
 
 
