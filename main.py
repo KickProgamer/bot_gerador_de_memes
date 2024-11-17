@@ -3,7 +3,7 @@ from appFastApi import TokenAPI
 from bot import runner   # Função que inicia o bot
 
 def iniciarApi():
-    app_api = TokenAPI()
+    app_api = TokenAPI
     app_api.run(host="0.0.0.0", port=80)
 
 # Função principal que inicia ambos

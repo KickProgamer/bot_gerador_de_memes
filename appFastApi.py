@@ -22,7 +22,7 @@ class TokenAPI:
             raise HTTPException(status_code=403, detail="Acesso não permitido ou expirado")
         
         # Renderiza o HTML para o usuário configurar algo
-        with open("../src/index.html", "r", encoding="utf-8") as file:
+        with open("src/index.html", "r", encoding="utf-8") as file:
             html_content = file.read()
         return html_content
 
@@ -31,6 +31,7 @@ class TokenAPI:
         token = str(uuid4())
         self.temp_tokens[token] = datetime.now() + timedelta(minutes=5)
         return {"token": token}
+    
     async def status(self):
         return {"message": "API está funcionando corretamente"}
 
