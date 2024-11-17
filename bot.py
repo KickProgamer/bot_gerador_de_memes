@@ -50,7 +50,7 @@ async def importar(ctx:commands.Context):
     API_URL_LOCAL = 'http://127.0.0.1/'
 
     # Obter token temporário da API
-    response = requests.get(API_URL_LOCAL + 'gerar-token')
+    response = requests.get(API_URL + 'gerar-token')
     data = response.json()
     token = data['token']
     url_temp = f"{API_URL}minha-rota/{token}"
@@ -68,7 +68,7 @@ async def on_ready():
         API_URL = 'https://shitbot.squareweb.app/'
         API_URL_LOCAL = 'http://127.0.0.1/'
         # verifcando o status da API
-        responseAPI = requests.get(API_URL_LOCAL + "status")
+        responseAPI = requests.get(API_URL + "status")
         if responseAPI.status_code == 200:
             data = responseAPI.json()
             if data.get("message") == "API está funcionando corretamente":
