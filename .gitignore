@@ -4,6 +4,7 @@ __pycache__/*
 /.vscode/*
 .vscode
 .vscode/*
+test
 venv
 squarecloud.app
 configsMain.json
