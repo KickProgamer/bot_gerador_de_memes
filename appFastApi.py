@@ -1,31 +1,35 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from datetime import datetime, timedelta
-import uuid
+from uuid import uuid4
 
+class TokenAPI:
+    def __init__(self):
+        self.app = FastAPI()
+        self.temp_tokens = {}
+        
+        # Configura as rotas do FastAPI
+        self.app.add_api_route("/minha-rota/{token}", self.minha_funcao, methods=["GET"], response_class=HTMLResponse)
+        self.app.add_api_route("/gerar-token", self.gerar_token, methods=["GET"])
 
-app = FastAPI()
+    async def minha_funcao(self, token: str):
+        """Rota que valida o token e renderiza o HTML."""
+        # Verifica se o token existe e se não está expirado
+        if token not in self.temp_tokens or self.temp_tokens[token] < datetime.now():
+            raise HTTPException(status_code=403, detail="Acesso não permitido ou expirado")
+        
+        # Renderiza o HTML para o usuário configurar algo
+        with open("../src/index.html", "r", encoding="utf-8") as file:
+            html_content = file.read()
+        return html_content
 
-# Dicionário para armazenar tokens temporários
-temp_tokens = {}
+    async def gerar_token(self):
+        """Gera um token temporário e o armazena com validade de 5 minutos."""
+        token = str(uuid4())
+        self.temp_tokens[token] = datetime.now() + timedelta(minutes=5)
+        return {"token": token}
 
-#Capturando HTML CONTENT e Enviando para o User
-@app.get("/minha-rota/{token}", response_class=HTMLResponse)
-async def minha_funcao(token:str):
-
-  # Verifica se o token existe e se não está 
-  if token not in temp_tokens or temp_tokens[token] < datetime.now():
-    raise HTTPException(status_code=403, detail='Acesso não permitido ou expirado')
-  
-  # Renderiza o HTML para o usuário configurar algo
-  with open("./frontend/index.html", "r", encoding='utf-8') as file:
-    html_content = file.read()
-  return html_content
-
-# Função de gerar tokens
-def gerar_token_temp():
-  tokenG = str(uuid.uuid4())
-  temp_tokens[tokenG] = datetime.now() + timedelta(minutes=5)
-  minha_funcao(tokenG)
-  return tokenG
-#Retornando as informações da pagina e tratando-oas
+    def run(self, host="0.0.0.0", port=8000):
+        """Roda o servidor Uvicorn com o FastAPI."""
+        import uvicorn
+        uvicorn.run(self.app, host=host, port=port)

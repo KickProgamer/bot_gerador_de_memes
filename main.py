@@ -51,10 +51,17 @@ async def avatar(ctx:commands.Context, avatarID):
 
 @bot.command()
 async def importar(ctx:commands.Context):
-    from appFastApi import gerar_token_temp
-    token = gerar_token_temp()
-    url_temp = f"{SUB_DOMAIN}{token}"
-    await ctx.send(f'ACESSE AQUI PARA IMPORTAR SEUS TEMPLATES: {url_temp}')
+    import requests
+
+    # URL da API na Square Cloud
+    API_URL = 'http://shitbot.squarecloud.app/'
+
+    # Obter token temporário da API
+    response = requests.get(API_URL + 'gerar-token')
+    data = response.json()
+    token = data['token']
+    url_temp = f"{API_URL}minha-rota/{token}"
+    await ctx.send(f"A URL temporária é: {url_temp}")
 
 
 @bot.event
