@@ -52,7 +52,7 @@ async def avatar(ctx:commands.Context, avatarID):
 @bot.command()
 async def importar(ctx:commands.Context):
     # URL da API na Square Cloud
-    API_URL = 'http://shitbot.squarecloud.app/'
+    API_URL = 'http://shitbot.squareweb.app/'
     API_URL_LOCAL = 'http://127.0.0.1/'
 
     # Obter token temporário da API
@@ -71,7 +71,7 @@ async def on_ready():
 
     # teste se o uvicorn está rodando
     try:
-        API_URL = 'http://shitbot.squarecloud.app/'
+        API_URL = 'http://shitbot.squareweb.app/'
         API_URL_LOCAL = 'http://127.0.0.1/'
         # verifcando o status da API
         responseAPI = requests.get(API_URL + "status")
