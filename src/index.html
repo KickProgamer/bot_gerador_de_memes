@@ -214,7 +214,6 @@
       const photoPreview = document.getElementById("photo-preview");
       let image;
       const enviar = document.getElementById("enviar");
-      enviar.style.display = "none";
 
       // Select & Preview image
       document.getElementById("select-image").onclick = function () {
@@ -224,7 +223,6 @@
       window.addEventListener("DOMContentLoaded", () => {
         photoFile.addEventListener("change", () => {
           let file = photoFile.files.item(0);
-          enviar.style.display = "initial";
 
           // ler um arquivo
           let reader = new FileReader();
