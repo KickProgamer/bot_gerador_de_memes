@@ -33,3 +33,4 @@ class TokenAPI:
         """Roda o servidor Uvicorn com o FastAPI."""
         import uvicorn
         uvicorn.run(self.app, host=host, port=port)
+        print(f'Uvicorn funcionando normal na porta {port}')
