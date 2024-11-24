@@ -4,6 +4,8 @@ from discord.ext import commands
 import json
 from gerador import gerarImagemMain, gerarImagemAvatar
 from time import sleep
+from asyncio import sleep as sl
+from uuid import uuid4
 import requests
 
 #* PERMISSÕES DO DISCORD
@@ -17,6 +19,7 @@ bot = commands.Bot(command_prefix=".",
 
 #* TOKEN
 SUB_DOMAIN = 'shitbot.squareweb.app/'
+SUB_DOMAIN_LOCAL = 'http://127.0.0.1:8000'
 
 #* LÓGICA DO CÓDIGO
 @bot.command()
@@ -24,7 +27,7 @@ async def gerar(ctx:commands.Context):
     gerarImagemMain()
     sleep(1)
     await ctx.send('IMAGEM GERADA AQUI')
-    await ctx.send(file=discord.File('temporariaFolder/gerada.jpg'))
+    await ctx.send(file=discord.File('temporariaFolder/gerada.jpg'), )
 
 #aposetando por enquanto essa funcionalidade
 @bot.command()
@@ -44,7 +47,8 @@ async def avatar(ctx:commands.Context, avatarID):
         await ctx.send(file=discord.File('temporariaFolder/gerada.jpg'))
 
 @bot.command()
-async def importar(ctx:commands.Context):
+async def importar(ctx:commands.Context, t):
+    """
     # URL da API na Square Cloud
     API_URL = 'http://shitbot.squareweb.app/'
     API_URL_LOCAL = 'http://127.0.0.1/'
@@ -55,7 +59,31 @@ async def importar(ctx:commands.Context):
     token = data['token']
     url_temp = f"{API_URL}minha-rota/{token}"
     print('UMA NOVA REQUISIÇÃO DE API FOI REGISTRADA')
-    await ctx.send(f"A URL temporária é: {url_temp}")
+    await ctx.send(f"A URL temporária é: {url_temp}")"""
+    await ctx.send(f"Devido ao pobre conhecimento do inconpentente do meu dono a url para enviar template permanecerá estática e qualquer um poderá importar template a qualquer momento, até segunda ordem, obrigado \n segue: {SUB_DOMAIN}import_template")
+
+
+# função para rodar em loop task abaixo
+async def enviar_memes_automatico():
+    await bot.wait_until_ready()
+
+    #lista de canal futuramente deverá ser personalizada
+    target_channel = bot.get_channel(1275586691939307532)
+
+    if target_channel is None:
+        print(" Canal de destino não encontrado!")
+        return
+    
+    while not bot.is_closed():
+        try:
+            gerarImagemMain()
+            sleep(3)
+            await target_channel.send(f"IMAGEM GERADA AQUI id: {str(uuid4())}")
+            await target_channel.send(file=discord.File('temporariaFolder/gerada.jpg'))
+            await sl(2 * 60 * 60)
+        except Exception as e:
+            print(f"Erro ao enviar mensagem: {e}")
+            await sl(60) # aguarda um minuto antes for try again
 
 
 @bot.event
@@ -63,10 +91,13 @@ async def on_ready():
     print("INICIANDO FUNCIONAMENTO")
     print(f'Logado como {bot.user}!')
 
+    bot.loop.create_task(enviar_memes_automatico())
+    print('Enviando memes automáticos funcionando')
+
     # teste se o uvicorn está rodando
     try:
         API_URL = 'https://shitbot.squareweb.app/'
-        API_URL_LOCAL = 'http://127.0.0.1/'
+        API_URL_LOCAL = 'http://127.0.0.1:8000/'
         # verifcando o status da API
         responseAPI = requests.get(API_URL + "status")
         if responseAPI.status_code == 200:
@@ -92,5 +123,8 @@ with open('configsMain.json', 'r', encoding='utf-8') as jsonFile:
 TOKEN_BOT = dadosConfigs['TOKEN']
 
 def runner():
+    bot.run(TOKEN_BOT)
+
+if __name__ == '__main__':
     bot.run(TOKEN_BOT)
 

@@ -1,4 +1,3 @@
-#basicamente abaixo já tem tudo que voce precisa pra gerar imagens
 from PIL import Image
 import json
 import random
@@ -38,10 +37,9 @@ class Gerador:
     
   def imagemPronta(self):
     for n in range(self.listConfigs[0]):
-      position = (self.listConfigs[(1 * (n + 1))], self.listConfigs[(2 * (n + 1))])
-      medidas = (self.listConfigs[(3 * (n + 1))], self.listConfigs[(4 * (n + 1))])
+      position = (self.listConfigs[n+1], self.listConfigs[n+2])
+      medidas = (self.listConfigs[n+3], self.listConfigs[n+4])
       overlay = self.listImagens[n].resize((medidas))
-      
       self.template.paste(overlay, position)
     self.template.save(rf'temporariaFolder/gerada.jpg')
 
