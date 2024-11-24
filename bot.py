@@ -47,7 +47,7 @@ async def avatar(ctx:commands.Context, avatarID):
         await ctx.send(file=discord.File('temporariaFolder/gerada.jpg'))
 
 @bot.command()
-async def importar(ctx:commands.Context, t):
+async def importar(ctx:commands.Context):
     """
     # URL da API na Square Cloud
     API_URL = 'http://shitbot.squareweb.app/'
