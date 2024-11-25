@@ -206,16 +206,22 @@
       <img id="photo-preview" draggable="false" />
       <div id="selection-tool"></div>
       <p id="teste">MENSAGEM DE TESTE</p>
-      <button type="button" id="btn-teste">clique aqui para testar</button>
+      <button id="btn-teste" onclick="alterarTexto()">
+        clique aqui para testar
+      </button>
       <!--<button id="proximo" class="quantidade">Próxima imagem</button>-->
-      <button type="submit" class="quantidade" id="enviar">ENVIAR</button>
+      <button type="submit" id="enviar">ENVIAR</button>
     </main>
     <footer></footer>
     <script>
       const photoFile = document.getElementById("photo-file");
       const photoPreview = document.getElementById("photo-preview");
       const enviar = document.getElementById("enviar");
-      const teste = document.getElementsByName("teste");
+      const teste = document.getElementById("teste");
+
+      function alterarTexto() {
+        teste.innerText = "Texto alterado com sucesso";
+      }
 
       // Select & Preview image
       document.getElementById("select-image").onclick = function () {
@@ -324,11 +330,6 @@
 
       const SERVER_SQUARECLOUD = "https://shitbot.squareweb.app/";
       const SERVER_LOCALHOST = "http://127.0.0.1:8000/";
-
-      const btn_teste = document.getElementById("btn-teste");
-      btn_teste.addEventListener("click", () => {
-        teste.innerText = "texto alterado pois o botão foi apertado";
-      });
 
       // dados da configuração do template
       let numeroQuantidade = 1; // ainda em desenvolvimento
