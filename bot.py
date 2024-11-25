@@ -1,12 +1,14 @@
 #basicamente abaixo você já tem tudo que precisa pra enviar a imagem
-import discord
+from datetime import datetime, timedelta
 from discord.ext import commands
-import json
 from gerador import gerarImagemMain, gerarImagemAvatar
 from time import sleep
 from asyncio import sleep as sl
 from uuid import uuid4
 import requests
+import os
+import discord
+import json
 
 #* PERMISSÕES DO DISCORD
 permissoes = discord.Intents.default()
@@ -62,6 +64,24 @@ async def importar(ctx:commands.Context):
     await ctx.send(f"A URL temporária é: {url_temp}")"""
     await ctx.send(f"Devido ao pobre conhecimento do inconpentente do meu dono a url para enviar template permanecerá estática e qualquer um poderá importar template a qualquer momento, até segunda ordem, obrigado \n segue: {SUB_DOMAIN}import_template")
 
+def pode_enviar():
+    arquivo = 'lastSend.txt'
+
+    if os.path.exists(arquivo):
+        with open(arquivo, 'r') as arq:
+            ultima_hora_str = arquivo.read().strip()
+        try:
+            ultima_hora = datetime.strptime(ultima_hora_str, "%Y-%m-%d %H:%M:%S")
+            agora = datetime.now()
+            return agora >= ultima_hora + timedelta(hours=2)
+        except ValueError:
+            return True
+    else:
+        return True
+    
+def registrar_envio():
+    with open('lastSend.txt', 'w') as arq:
+        arq.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # função para rodar em loop task abaixo
 async def enviar_memes_automatico():
@@ -76,11 +96,15 @@ async def enviar_memes_automatico():
     
     while not bot.is_closed():
         try:
-            gerarImagemMain()
-            sleep(3)
-            await target_channel.send(f"IMAGEM GERADA AQUI id: {str(uuid4())}")
-            await target_channel.send(file=discord.File('temporariaFolder/gerada.jpg'))
-            await sl(2 * 60 * 60)
+            if pode_enviar():
+                    
+                gerarImagemMain()
+                await sl(3)
+
+                await target_channel.send(f"IMAGEM GERADA AQUI id: {str(uuid4())}")
+                await target_channel.send(file=discord.File('temporariaFolder/gerada.jpg'))
+                registrar_envio()
+                await sl(2 * 60 * 60)
         except Exception as e:
             print(f"Erro ao enviar mensagem: {e}")
             await sl(60) # aguarda um minuto antes for try again
