@@ -205,7 +205,8 @@
         -->
       <img id="photo-preview" draggable="false" />
       <div id="selection-tool"></div>
-
+      <p id="teste">MENSAGEM DE TESTE</p>
+      <button type="button" id="btn-teste">clique aqui para testar</button>
       <!--<button id="proximo" class="quantidade">Próxima imagem</button>-->
       <button type="submit" class="quantidade" id="enviar">ENVIAR</button>
     </main>
@@ -214,17 +215,22 @@
       const photoFile = document.getElementById("photo-file");
       const photoPreview = document.getElementById("photo-preview");
       const enviar = document.getElementById("enviar");
+      const teste = document.getElementsByName("teste");
 
       // Select & Preview image
       document.getElementById("select-image").onclick = function () {
         photoFile.click();
       };
 
+      teste.innerText = "texto não alterado pois o arquivo não foi alterado";
+
       window.addEventListener("DOMContentLoaded", () => {
+        teste.innerText = "texto altero pois o arquivo foi carregado";
         enviar.style.display = "none";
         photoFile.addEventListener("change", () => {
           let file = photoFile.files.item(0);
           enviar.style.display = "initial";
+          teste.innerText = "texto alterado pois a imagem foi carregada";
 
           // ler um arquivo
           let reader = new FileReader();
@@ -318,6 +324,11 @@
 
       const SERVER_SQUARECLOUD = "https://shitbot.squareweb.app/";
       const SERVER_LOCALHOST = "http://127.0.0.1:8000/";
+
+      const btn_teste = document.getElementById("btn-teste");
+      btn_teste.addEventListener("click", () => {
+        teste.innerText = "texto alterado pois o botão foi apertado";
+      });
 
       // dados da configuração do template
       let numeroQuantidade = 1; // ainda em desenvolvimento
