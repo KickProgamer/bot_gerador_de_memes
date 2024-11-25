@@ -213,7 +213,6 @@
     <script>
       const photoFile = document.getElementById("photo-file");
       const photoPreview = document.getElementById("photo-preview");
-      let image;
       const enviar = document.getElementById("enviar");
 
       // Select & Preview image
@@ -221,7 +220,6 @@
         photoFile.click();
       };
 
-      let file;
       window.addEventListener("DOMContentLoaded", () => {
         enviar.style.display = "none";
         photoFile.addEventListener("change", () => {
@@ -318,8 +316,8 @@
         photoPreview.src = canvas.toDataURL();
       }
 
-      const SERVER_SQUARECLOUD = "";
-      const SERVER_LOCALHOST = "http://127.0.0.1:8000";
+      const SERVER_SQUARECLOUD = "https://shitbot.squareweb.app/";
+      const SERVER_LOCALHOST = "http://127.0.0.1:8000/";
 
       // dados da configuração do template
       let numeroQuantidade = 1; // ainda em desenvolvimento
@@ -354,7 +352,7 @@
 
           // fazendo o POST
           const resposta = await axios.post(
-            `${SERVER_LOCALHOST}/receber`,
+            `${SERVER_SQUARECLOUD}receber`,
             formData,
             {
               headers: {
